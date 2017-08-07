@@ -1,7 +1,7 @@
 import path from 'path'
 import ExtractTextPlugin from 'extract-text-webpack-plugin'
 
-export const pageNum = 2
+export const pageNum = 4
 
 export const port = 4000
 export const isDev = process.env.NODE_ENV === 'development'
