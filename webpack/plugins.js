@@ -10,7 +10,7 @@ import HtmlWebpackHarddiskPlugin from 'html-webpack-harddisk-plugin'
 import UglifyJsParallelPlugin from 'webpack-uglify-parallel'
 import Dashboard from 'webpack-dashboard'
 import DashboardPlugin from 'webpack-dashboard/plugin'
-import {isDev, PATH_ROOT, PATH_SRC, PATH_LIB, PATH_BUILD, PATH_PUBLIC, LIB_NAME, extractLESS} from './config'
+import {isDev, PATH_ROOT, PATH_SRC, PATH_LIB, PATH_BUILD, PATH_PUBLIC, LIB_NAME, extractLESS, pageNum} from './config'
 
 const {hash: HASH_LIB} = require(path.resolve(PATH_LIB, 'asset'))
 
@@ -27,13 +27,13 @@ const HtmlWebpackPluginMinify = isDev ? {} : {
   keepClosingSlash: false
 }
 
-const HtmlWebpackPluginConfig = [
-  {
-    filename: '1',
-    title: 'WEB前端开发',
-    chunks: ['1']
-  }
-].map(v => new HtmlWebpackPlugin({
+const HtmlWebpackPluginConfig = Array.from(Array(pageNum), (v, i) => i + 1)
+.map(v => ({
+  filename: v,
+  title: 'WEB前端开发',
+  chunks: [`${v}`]
+}))
+.map(v => new HtmlWebpackPlugin({
   alwaysWriteToDisk: true,
   filename: path.resolve(PATH_ROOT, `${v.filename}.html`),
   template: path.resolve(PATH_SRC, `template/index.ejs`),
@@ -68,7 +68,8 @@ const plugins = [
   }),
   new webpack.EnvironmentPlugin(['NODE_ENV']),
   new webpack.ProvidePlugin({
-    THREE: 'three'
+    THREE: 'three',
+    $: 'jquery'
   }),
   extractLESS,
   new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),

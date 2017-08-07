@@ -10,7 +10,8 @@ const LIBRARY_NAME = '__[name]_[hash]'
 export default {
   entry: {
     [LIB_NAME]: [
-      'three'
+      'three',
+      'jquery'
     ]
   },
   output: {

@@ -1,8 +1,11 @@
-import {isDev, PATH_ROOT, PATH_BUILD, PATH_PUBLIC, FILENAME} from './config'
+import {isDev, PATH_ROOT, PATH_BUILD, PATH_PUBLIC, FILENAME, pageNum} from './config'
 
 export default {
   entry: {
-    1: './src/asset/1'
+    ...Array.from(Array(pageNum), (v, i) => i + 1).reduce((prev, cur) => {
+      prev[cur] = `./src/asset/${cur}`
+      return prev
+    }, {})
   },
   output: {
     path: PATH_BUILD,
